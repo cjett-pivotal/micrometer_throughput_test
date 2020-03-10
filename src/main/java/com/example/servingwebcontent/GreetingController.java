@@ -1,10 +1,10 @@
 package com.example.servingwebcontent;
 
 import io.micrometer.core.instrument.MeterRegistry;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Controller
+@RestController
 public class GreetingController {
 
     private MeterRegistry registry;
@@ -44,9 +44,8 @@ public class GreetingController {
     }
 
     @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
+    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name) {
         this.addTimestamp(new Date().getTime());
-        return "greeting";
+        return "Hello "+name+"!";
     }
 }
