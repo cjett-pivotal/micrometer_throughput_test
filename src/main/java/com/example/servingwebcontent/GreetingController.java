@@ -34,7 +34,7 @@ public class GreetingController {
                     } else{
                         timeStamps.remove(i);
                     }
-                    AtomicLong customGauge = registry.gauge("custom", customRegistry);
+                    AtomicLong customGauge = registry.gauge("customGauge", customRegistry);
                     customGauge.set(count);
                 }
                 System.out.println("Hits in the past 10 seconds: "+count);
