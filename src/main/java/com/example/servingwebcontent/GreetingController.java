@@ -31,10 +31,13 @@ public class GreetingController {
                 for (int i = 0; i < timeStamps.size(); i++){
                     if ((long)timeStamps.get(i) > new Date().getTime() - (10000)) {
                         count++;
-                    };
+                    } else{
+                        timeStamps.remove(i);
+                    }
                     AtomicLong customGauge = registry.gauge("custom", customRegistry);
                     customGauge.set(count);
                 }
+                System.out.println("Timestamps list size is "+timeStamps.size());
                 System.out.println("Hits in the past 10 seconds: "+count);
         }}, 1000, 1000);
     }
