@@ -37,7 +37,6 @@ public class GreetingController {
                     AtomicLong customGauge = registry.gauge("custom", customRegistry);
                     customGauge.set(count);
                 }
-                System.out.println("Timestamps list size is "+timeStamps.size());
                 System.out.println("Hits in the past 10 seconds: "+count);
         }}, 1000, 1000);
     }
