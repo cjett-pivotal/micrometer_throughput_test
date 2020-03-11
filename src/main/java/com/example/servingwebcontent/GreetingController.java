@@ -28,7 +28,6 @@ public class GreetingController {
         t.scheduleAtFixedRate(new TimerTask(){
             public void run(){
                 long count = 0;
-                //todo: Sometimes throws java.lang.NullPointerException under very high load
                 try {
                     for (int i = 0; i < timeStamps.size(); i++){
                         if ((long)timeStamps.get(i) > new Date().getTime() - (10000)) {
@@ -36,19 +35,16 @@ public class GreetingController {
                         } else{
                             timeStamps.remove(i);
                         }
-                        AtomicLong customGauge = registry.gauge("customGauge", customRegistry);
-                        customGauge.set(count/10);
                     }
-                    System.out.println("Hits in the past 10 seconds: " + count);
-                    if (count < 10 && count != 0)
-                    {
-                        count = 10;
-                    };
-                    System.out.println("Hits per second (10 second window): " + count/10);
                 } catch (Exception e){
                     System.out.println(e);
                 }
-        }}, 3000, 3000);
+                if (count < 10 && count != 0) {count = 10;};
+                System.out.println("Hits per second (10 second window): " + count/10);
+                System.out.println("Hits in the past 10 seconds: " + count);
+                AtomicLong customGauge = registry.gauge("customGauge", customRegistry);
+                customGauge.set(count/10);
+        }}, 2000, 2000);
     }
 
     private void addTimestamp(Long timeStamp){
